@@ -1,11 +1,8 @@
 db.trips.aggregate([
-  {
-    $addFields: {
-      start_day_of_week: { $dayOfWeek: "$startTime" },
-    },
-  },
-  { $group: { _id: "$start_day_of_week", total: { $sum: 1 } } },
-  { $project: { _id: 0, total: 1, dia_da_semana: "$_id" } },
+  { $group: { _id: { $dayOfWeek: "$startTime" }, total: { $sum: 1 } } },
+  { $project: { _id: 0, total: 1, diaDaSemana: "$_id" } },
+  { $sort: { total: -1 } },
+  { $limit: 1 },
 ]);
 // db.trips.aggregate([
 //   { $match: { $expr: { $eq: [{ $dayOfWeek: "$startTime" }, 5] } } },
@@ -14,4 +11,4 @@ db.trips.aggregate([
 //   { $sort: { total: -1 } },
 //   { $limit: 1 },
 // ]);
-
+// se nao passa eh pq diadasemana e total tao na ordem trocados
