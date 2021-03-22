@@ -9,5 +9,5 @@ db.trips.aggregate([
   { $group: { _id: "$usertype", media: { $avg: "$time" } } },
   {
     $project: { _id: 0, tipo: "$_id", duracaoMedia: { $round: ["$media", 2] } },
-  }
+  },
 ]);
